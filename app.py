@@ -1,4 +1,6 @@
 import sys
+import time
+
 import pyautogui
 if sys.platform == 'linux':
 	import Xlib.threaded
@@ -46,6 +48,12 @@ def mouse_event():
 		pyautogui.scroll(100)
 	elif event == 'mousewheeldown':
 		pyautogui.scroll(-100)
+	elif event == 'mousepress':
+		pyautogui.mouseDown(x, y)
+	elif event == 'mouserelease':
+		pyautogui.mouseUp(x, y)
+	elif event == 'mousemove':
+		pyautogui.moveTo(x, y)
 
 	return Response("success")
 
