@@ -42,6 +42,10 @@ def mouse_event():
 		pyautogui.doubleClick(x, y)
 	elif event == 'rightclick':
 		pyautogui.click(x, y, button='right')
+	elif event == 'mousewheelup':
+		pyautogui.scroll(100)
+	elif event == 'mousewheeldown':
+		pyautogui.scroll(-100)
 
 	return Response("success")
 
@@ -60,4 +64,4 @@ def keyboard_event():
 
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', threaded=True)
+	app.run(host='192.168.0.101', port=5000, threaded=True)
