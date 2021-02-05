@@ -1,7 +1,8 @@
 import sys
 import cv2
-import numpy as np 
+import numpy as np
 import pyautogui
+
 if sys.platform == 'linux':
     import pyscreenshot as ImageGrab
 else:
@@ -27,7 +28,6 @@ class Camera(BaseCamera):
             ret, jpeg = cv2.imencode('.jpg', frame)
             yield jpeg.tobytes()
 
-
     @staticmethod
     def draw_mouse(img):
         """
@@ -38,7 +38,7 @@ class Camera(BaseCamera):
         # find current position of mouse pointer
         pos = pyautogui.position()
         # coordinates of ellipse
-        ax, ay, bx, by = pos[0], pos[1], pos[0]+10, pos[1]+10
+        ax, ay, bx, by = pos[0], pos[1], pos[0] + 10, pos[1] + 10
         # draw ellipse on image
-        draw.ellipse((ax,ay,bx,by), fill="yellow")
+        draw.ellipse((ax, ay, bx, by), fill="yellow")
         return img
