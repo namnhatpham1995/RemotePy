@@ -2,8 +2,6 @@
 
 A remote-desktop sharing application.
 
-![](https://media.giphy.com/media/l0NgRAtb5X8YPL30Y/giphy.gif)
-
 - browser-based, shared over LAN
 - cross platform
 - control remote-desktop using your mouse and keyboard
