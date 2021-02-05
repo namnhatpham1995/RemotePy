@@ -5,7 +5,6 @@ A remote-desktop sharing application.
 - browser-based, shared over LAN
 - cross platform
 - control remote-desktop using your mouse and keyboard
-- click, double click and right click enabled
 - works on touch-screen devices as well!
 
 ## Installation
