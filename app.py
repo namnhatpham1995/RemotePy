@@ -1,12 +1,20 @@
+import os
 import sys
 import pyautogui
 
+# import userinterface
+from werkzeug.utils import secure_filename
+
+import file
+
 if sys.platform == 'linux':
     import Xlib.threaded
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, redirect, send_file
 from camera_desktop import Camera
 
 app = Flask(__name__)
+UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/Storage/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -40,8 +48,8 @@ def mouse_event():
 
     if event == 'rightclick':
         pyautogui.click(x, y, button='right')
-    elif event == 'click':
-        pyautogui.click(x, y, button='left')
+    # elif event == 'click':
+    #    pyautogui.click(x, y, button='left')
     elif event == 'mousewheelup':
         pyautogui.scroll(100)
     elif event == 'mousewheeldown':
@@ -67,9 +75,51 @@ def mouse_event():
 @app.route('/keyboard', methods=['POST'])
 def keyboard_event():
     text = request.form.get("text")
-    if text == 'ctrl' or 'shift' or 'alt'
+    #    if text == 'ctrl' or 'shift' or 'alt'
     pyautogui.press(text)
     return Response("success")
+
+
+# Upload API
+@app.route('/upload_file/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            print('no file')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            print('no filename')
+            return redirect(request.url)
+        else:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            print("saved file successfully")
+    return render_template('index.html')
+
+
+# Download API
+@app.route("/downloadfile/")
+def choose_file_download():
+    file_path = file.chooseFile(UPLOAD_FOLDER)
+    if file_path == "":
+        return redirect('/')
+    else:
+        return redirect('/return-files/' + file_path)
+
+
+@app.route('/return-files/<filename>')
+def download_file(filename):
+    # file_path = UPLOAD_FOLDER + filename
+    file_path = filename.replace('*', '/')
+    print(file_path)
+    file_name = file.file_name_from_path(file_path)
+    print(file_name)
+    redirect('/')
+    return send_file(file_path, as_attachment=True, attachment_filename=file_name)
 
 
 if __name__ == "__main__":
