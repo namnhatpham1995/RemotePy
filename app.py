@@ -48,8 +48,8 @@ def mouse_event():
 
     if event == 'rightclick':
         pyautogui.click(x, y, button='right')
-    # elif event == 'click':
-    #    pyautogui.click(x, y, button='left')
+    elif event == 'click':
+        pyautogui.click(x, y, button='left')
     elif event == 'mousewheelup':
         pyautogui.scroll(100)
     elif event == 'mousewheeldown':
@@ -76,7 +76,7 @@ def mouse_event():
 def keyboard_event():
     text = request.form.get("text")
     #    if text == 'ctrl' or 'shift' or 'alt'
-    pyautogui.press(text)
+    pyautogui.keyDown(text)
     return Response("success")
 
 

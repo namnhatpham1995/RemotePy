@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<input type="text" onkeypress="detectkey()">
+
+<p id="keystroke"></p>
+
+<script type="text/javascript">
+
+function detectkey() {
+    var unicode = event.which || event.keyCode;
+    document.getElementById("keystroke").innerHTML = "The pressed key was: " + String.fromCharCode(unicode) +"<br>The Unicode value is:"+ unicode;
+}
+</script>
+
+</body>
+</html>

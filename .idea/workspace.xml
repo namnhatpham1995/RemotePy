@@ -10,9 +10,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="CSS File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -56,6 +56,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="RemotePy" type="PythonConfigurationType" factoryName="Python">
@@ -112,6 +113,15 @@
       <workItem from="1612858987615" duration="5017000" />
       <workItem from="1612886073000" duration="1207000" />
       <workItem from="1613033032018" duration="12906000" />
+      <workItem from="1613057512250" duration="2443000" />
+      <workItem from="1613116121755" duration="4064000" />
+      <workItem from="1613130177847" duration="791000" />
+      <workItem from="1613379426603" duration="6204000" />
+      <workItem from="1613385859130" duration="41000" />
+      <workItem from="1613402490483" duration="599000" />
+      <workItem from="1613460509651" duration="2743000" />
+      <workItem from="1613486607038" duration="2554000" />
+      <workItem from="1613552696455" duration="1811000" />
     </task>
     <servers />
   </component>

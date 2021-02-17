@@ -33,22 +33,31 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
-        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/useful.css') }}"/>
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mobile-1.5.0-alpha.1.min.css') }}"/>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.mobile-1.5.0-alpha.1.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 		<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
-		<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.finger.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.mousewheel.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.finger.min.js') }}"></script>
+
 		<!--
         <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.finger.min.js') }}"></script>
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mobile-1.5.0-alpha.1.min.css') }}"/>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.mobile-1.5.0-alpha.1.min.js') }}"></script>
         -->
-        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.mousewheel.min.js') }}"></script>
+
+
 		<title>RemotePy Desktop</title>
 	</head>
 
 	<body>
 
 		<div class="row">
-			<div class="col s12">
-				<img style="float: left" class="screen" id="screen" src="{{ url_for('video_feed') }}" width = 100% height = 100% draggable="false" >
+			<div class="col s12" tabindex="-1">
+				<img style="float: left" class="screen" id="screen" src="{{ url_for('video_feed') }}" width = 100% height = 100% draggable="false"
+                tabindex="-1">
             </div>
 		</div>
 
@@ -60,7 +69,7 @@
 
                         <div class="form-group">
                             <input class="form-control-file form-control-sm" type=file name=file style="margin-bottom: 5px"
-                            id="upload_file">
+                            id="upload_file" tabindex="-1">
                             <br>
                             <label size="20px">Choose file to transfer to PC</label>
                             <br>
@@ -74,12 +83,14 @@
 				</div>
 
                 <div class="col s2 offset-s1">
-                    <button class="btn btn-primary" type="button" id="upload_button"><i class="fa fa-cloud-upload"></i> Upload to PC</button>
+                    <button class="btn btn-primary" type="button" id="upload_button" tabindex="-1">
+                        <i class="fa fa-cloud-upload"></i> Upload to PC</button>
                 </div>
 
 				<div class="col s2 offset-s1">
-                    <a href="/downloadfile/" target="blank">
-					<button class="btn btn-primary" type=submit id="download"><i class="fa fa-cloud-download"></i> Download to oneye</button>
+                    <a href="/downloadfile/" target="blank" tabindex="-1">
+					<button class="btn btn-primary" type=submit id="download" tabindex="-1">
+                        <i class="fa fa-cloud-download"></i> Download to oneye</button>
                     </a>
 				</div>
 
@@ -139,7 +150,7 @@
 				mouse_event(screen, event, "dblclick");
 			});*/
 
-			$('#screen').on('tap', function(event) {
+			$('#screen').on("tap", function tapHandler(event) {
 				var screen = $(this);
 				mouse_event(screen, event, "click");
 			});
@@ -183,12 +194,22 @@
 
             /* Send text keyboard*/
 			$('html').keydown( function(event) {
-			    /*var text = String.fromCharCode(event.keyCode)*/
-                if (event.originalEvent.getModifierState('CapsLock')||event.shiftKey){
-                    var text = String.fromCharCode(event.keyCode);
+                var text    = event.key;
+                if (text == "ArrowDown")
+                {
+                    text = "down";
                 }
-                else {
-                    var text = String.fromCharCode(event.keyCode).toLowerCase();
+                else if (text == "ArrowUp")
+                {
+                    text = "up";
+                }
+                else if (text == "ArrowLeft")
+                {
+                    text = "left";
+                }
+                else if(text == "ArrowRight")
+                {
+                    text = "right";
                 }
 				console.log(text);
 				$.ajax({

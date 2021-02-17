@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input id="a" type="text" placeholder="press ctrl">
+<script>
+document.getElementById('a').addEventListener('keydown', (e) => {
+  const states = {
+    alt: e.altKey,
+    ctrl: e.ctrlKey,
+    meta: e.metaKey,
+    shift: e.shiftKey,
+  };
+  const key = e.key;
+  const code = e.code;
+  console.log(key, code, states);
+});
+</script>
+
+</body>
+</html>
