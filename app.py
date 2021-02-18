@@ -79,6 +79,19 @@ def keyboard_event():
     return Response("success")
 
 
+@app.route('/sendtext', methods=['POST'])
+def send_text_event():
+    # keyoard event
+    event = request.form.get('type')
+    print(event)
+    if event == "text":
+        text = request.form.get("text")
+        pyautogui.typewrite(text)
+    else:
+        pyautogui.press(event)
+    return Response("success")
+
+
 # Upload API
 @app.route('/upload_file/', methods=['GET', 'POST'])
 def upload_file():

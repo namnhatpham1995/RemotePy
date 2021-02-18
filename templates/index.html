@@ -97,6 +97,20 @@
 			</div>
 
 		</div>
+        <!--text area-->
+        <div class="row">
+				<div class="col s2 offset-s1">
+                    <label for="exampleFormControlTextarea1">Input text to send</label>
+					<textarea id="typeText" class="form-control" rows="3"></textarea>
+
+				</div>
+        </div>
+        <!--button send text from text area-->
+        <div class="row">
+            <div class="col s2 offset-s2">
+                <button class="btn btn-primary" id="text">Send</button>
+            </div>
+        </div>
 
 	</body>
 
@@ -221,6 +235,20 @@
 					success: function(result) { }
 				});
 			});
+            /* Send text area*/
+			$('#text').click(function(event) {
+				var text = document.getElementById('typeText').value;
+				console.log(text);
+				$.ajax({
+					type: 'POST',
+					url: "/sendtext",
+					data: {
+							"type": "text",
+							"text": text
+						},
+					success: function(result) { }
+				});
+			});
 
 			$('#upload_button').click(function(event) {
 			    var fd = new FormData();
@@ -238,6 +266,8 @@
 
                 }
 			});
+
+
 
 		
 		});
