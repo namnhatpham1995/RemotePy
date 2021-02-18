@@ -2,7 +2,6 @@ import os
 import sys
 import pyautogui
 
-# import userinterface
 from werkzeug.utils import secure_filename
 
 import file
