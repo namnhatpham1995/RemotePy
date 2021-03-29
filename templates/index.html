@@ -23,13 +23,19 @@
 			overflow: hidden;
 		}
 
-        ulli {
-            float:left; //or display:inline-block;
+        #content-desktop {display: block;}
+        #content-mobile {display: none;}
+
+        @media screen and (max-width: 768px) {
+
+        #content-desktop {display: none;}
+        #content-mobile {display: block;}
+
         }
 	</style>
 	
 	<head>
-		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
@@ -42,6 +48,7 @@
         <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.finger.min.js') }}"></script>
 
 		<!--
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.finger.min.js') }}"></script>
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mobile-1.5.0-alpha.1.min.css') }}"/>
@@ -54,67 +61,79 @@
 
 	<body>
 
+        <!--Screen to stream PC's screen-->
 		<div class="row">
-			<div class="col s12" tabindex="-1">
-				<img style="float: left" class="screen" id="screen" src="{{ url_for('video_feed') }}" width = 100% height = 100% draggable="false"
-                tabindex="-1">
+			<div class="col" tabindex="-1">
+				<img style="margin-left: 80px; margin-top: 5px " class="screen" id="screen" src="{{ url_for('video_feed') }}" width = 88%
+                     height = 100% draggable="false" tabindex="-1">
             </div>
 		</div>
 
-        <div class="row">
+        <div class="container" id="content-mobile">
+            <!--text area-->
+            <div class="row">
+                    <div class="col">
+                        <label style="margin-bottom: 5px" class="text-dark"><strong>Input text to send</strong></label>
+                        <textarea id="typeText" class="form-control border-dark" rows="3"></textarea>
 
-			<div class="row">
-				<div class="col s2 offset-s2">
-					<form action="" method=post enctype=multipart/form-data>
+                    </div>
+            </div>
+            <!--button send text from text area-->
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-primary" id="text">Send</button>
+                    <button class="btn btn-danger" id="text" onclick="clearTextArea()">Clear</button>
 
-                        <div class="form-group">
-                            <input class="form-control-file form-control-sm" type=file name=file style="margin-bottom: 5px"
-                            id="upload_file" tabindex="-1">
-                            <br>
-                            <label size="20px">Choose file to transfer to PC</label>
-                            <br>
-                            <!--
-                            <input type="button" class="btn btn-primary" value="Upload" id="upload_button">
-                            -->
+                    <button class="btn btn-warning keyboard" id="backspace">BackSpace</button>
+                    <button class="btn btn-warning keyboard" id="enter">Enter</button>
+                </div>
+            </div>
+        </div>
 
-                        </div>
+        <div class="container">
+            <div class="row">
+                <!-- Choose file button-->
+                <div class="col">
+                        <form action="" method=post enctype=multipart/form-data>
 
-                    </form>
-				</div>
+                            <div class="form-group">
+                                <input class="form-control-file form-control-sm" type=file name=file
+                                       style="margin-bottom: 5px" id="upload_file" tabindex="-1">
+                                <br>
+                                <label size="20px" class="text-dark"><strong>Choose file to transfer to PC</strong></label>
+                                <br>
 
-                <div class="col s2 offset-s1">
-                    <button class="btn btn-primary" type="button" id="upload_button" tabindex="-1">
-                        <i class="fa fa-cloud-upload"></i> Upload to PC</button>
+                            </div>
+
+                        </form>
+                </div>
+                <!-- Upload Button-->
+                <div class="col">
+                        <button class="btn btn-primary" type="button" id="upload_button" tabindex="-1">
+                            <i class="fa fa-cloud-upload"></i> Upload to Remote PC</button>
+                </div>
+                <!-- Download Button-->
+                <div class="col">
+                    <a href="/downloadfile/" target="blank" tabindex="-1">
+                    <button class="btn btn-primary" type=submit id="download" tabindex="-1">
+                        <i class="fa fa-cloud-download"></i> Download to current device</button>
+                    </a>
                 </div>
 
-				<div class="col s2 offset-s1">
-                    <a href="/downloadfile/" target="blank" tabindex="-1">
-					<button class="btn btn-primary" type=submit id="download" tabindex="-1">
-                        <i class="fa fa-cloud-download"></i> Download to oneye</button>
-                    </a>
-				</div>
-
-			</div>
-
-		</div>
-        <!--text area-->
-        <div class="row">
-				<div class="col s2 offset-s1">
-                    <label for="exampleFormControlTextarea1">Input text to send</label>
-					<textarea id="typeText" class="form-control" rows="3"></textarea>
-
-				</div>
-        </div>
-        <!--button send text from text area-->
-        <div class="row">
-            <div class="col s2 offset-s2">
-                <button class="btn btn-primary" id="text">Send</button>
             </div>
         </div>
+
+
 
 	</body>
 
 	<script>
+        alert("If you use computer, click on white space to use keyboard");
+        alert("if you use phone, use the text area to send words");
+        function clearTextArea() {
+            document.getElementById("typeText").value = "";
+        }
+
 		function get_xy(event, offset){
 			// function to get position of event on image
 			if(event.pageX == null){
@@ -148,6 +167,20 @@
 						"X": screen.width(),
 						"Y": screen.height()
 					},
+                timeout: 300,
+				success: function(result) { }
+			});
+		}
+
+		function keyboard_event(type) {
+			console.log(type);
+
+			$.ajax({
+				type: 'POST',
+				url: "/button",
+				data: {
+						"type": type
+					},
 				success: function(result) { }
 			});
 		}
@@ -174,11 +207,20 @@
 				event.preventDefault();
 				var screen = $(this);
 				mouse_event(screen, event, "mousepress");
+
+				<!--Add check mouse position (for drag action) -->
+                $('#screen').on('mousemove', function(event) {
+                    event.preventDefault();
+                    var screen = $(this);
+                    mouse_event(screen, event, "mousemove");
+                });
+
 			});
             $('#screen').on('mouseup', function(event) {
 				event.preventDefault();
 				var screen = $(this);
 				mouse_event(screen, event, "mouserelease");
+				$('#screen').off('mousemove');
 			});
 
 			$('#screen').on('taphold contextmenu', function(event) {
@@ -198,16 +240,17 @@
                 }
 
 			});
-            <!--Add check mouse position (for drag action) -->
-            $('#screen').on('mousemove', function(event) {
-				event.preventDefault();
-				var screen = $(this);
-				mouse_event(screen, event, "mousemove");
-				setTimeout(10);
-			});
+            //<!--Add check mouse position (for drag action) -->
+            //$('#screen').on('mousemove', function(event) {
+			//	event.preventDefault();
+			//	var screen = $(this);
+			//	mouse_event(screen, event, "mousemove");
+			//	setTimeout(this,100);
+			//});
 
-            /* Send text keyboard*/
-			$('html').keydown( function(event) {
+            /* Send text keyboard, click on empty space to activate keyboard oneye */
+
+			$('html').keydown(function(event) {
                 var text    = event.key;
                 if (text == "ArrowDown")
                 {
@@ -235,6 +278,7 @@
 					success: function(result) { }
 				});
 			});
+
             /* Send text area*/
 			$('#text').click(function(event) {
 				var text = document.getElementById('typeText').value;
@@ -248,6 +292,7 @@
 						},
 					success: function(result) { }
 				});
+				document.getElementById("typeText").value = "";
 			});
 
 			$('#upload_button').click(function(event) {
@@ -265,6 +310,18 @@
                    });
 
                 }
+			});
+
+			$('.keyboard').click(function(event) {
+				keyboard_event(this.id);
+			});
+
+			$('html').on('keyup', function(event){
+				if(event.keyCode == 13){
+					$('#enter').click();
+				}else if(event.keyCode == 8){
+					$('#backspace').click();
+				}
 			});
 
 

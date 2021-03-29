@@ -79,6 +79,19 @@ def keyboard_event():
     return Response("success")
 
 
+@app.route('/button', methods=['POST'])
+def button_event():
+    # button event
+    event = request.form.get('type')
+    print(event)
+    if event == "text":
+        text = request.form.get("text")
+        pyautogui.typewrite(text)
+    else:
+        pyautogui.press(event)
+    return Response("success")
+
+
 @app.route('/sendtext', methods=['POST'])
 def send_text_event():
     # keyoard event
@@ -135,4 +148,4 @@ def download_file(filename):
 
 
 if __name__ == "__main__":
-    app.run(host='192.168.0.101', port=5000, threaded=True)
+    app.run(host='192.168.0.126', port=5000, threaded=True)#,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')

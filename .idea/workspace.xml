@@ -49,7 +49,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../RemotePy-master" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -149,7 +149,28 @@
       <workItem from="1613552696455" duration="3752000" />
       <workItem from="1613559682494" duration="316000" />
       <workItem from="1613571633663" duration="4684000" />
-      <workItem from="1613646843032" duration="2026000" />
+      <workItem from="1613646843032" duration="3149000" />
+      <workItem from="1613981910189" duration="837000" />
+      <workItem from="1613983475329" duration="812000" />
+      <workItem from="1613988418708" duration="7227000" />
+      <workItem from="1614004391405" duration="634000" />
+      <workItem from="1614063591421" duration="2524000" />
+      <workItem from="1614592483553" duration="188000" />
+      <workItem from="1614593030847" duration="1253000" />
+      <workItem from="1614674153686" duration="791000" />
+      <workItem from="1614702941879" duration="113000" />
+      <workItem from="1615305518866" duration="774000" />
+      <workItem from="1615306699803" duration="2513000" />
+      <workItem from="1615388321034" duration="4508000" />
+      <workItem from="1615451424957" duration="537000" />
+      <workItem from="1616165259409" duration="1311000" />
+      <workItem from="1616167546865" duration="629000" />
+      <workItem from="1616512009638" duration="2569000" />
+      <workItem from="1616516153379" duration="460000" />
+      <workItem from="1616516630102" duration="18000" />
+      <workItem from="1617007628410" duration="40000" />
+      <workItem from="1617007718445" duration="2811000" />
+      <workItem from="1617010565377" duration="2145000" />
     </task>
     <servers />
   </component>
