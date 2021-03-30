@@ -148,4 +148,4 @@ def download_file(filename):
 
 
 if __name__ == "__main__":
-    app.run(host='192.168.0.126', port=5000, threaded=True)#,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
+    app.run(host='192.168.0.126', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))#,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
