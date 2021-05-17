@@ -1,24 +1,80 @@
 import os
 import sys
 import pyautogui
-
 from werkzeug.utils import secure_filename
 
 import file
 
 if sys.platform == 'linux':
     import Xlib.threaded
-from flask import Flask, render_template, Response, request, redirect, send_file
+from flask import Flask, render_template, Response, request, redirect, send_file, session, url_for, g
 from camera_desktop import Camera
 
 app = Flask(__name__)
 UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/Storage/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# Make user list that can login
+class User:
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
 
-@app.route('/')
+    def __repr__(self):
+        return f'<User: {self.username}>'
+users = []
+users.append(User(id=1, username='user1', password='123456'))
+users.append(User(id=2, username='user2', password='secret'))
+users.append(User(id=3, username='user3', password='password'))
+app.secret_key = 'youmustknowthesecretkeytoaccess'
+@app.before_request
+def before_request():
+    g.user = None
+
+    if 'user_id' in session:
+        user = [x for x in users if x.id == session['user_id']][0]
+        g.user = user
+
+
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session.pop('user_id', None)
+
+        username = request.form['username']
+        password = request.form['password']
+
+        for x in users:
+            if x.username == username:
+                if x.password == password:
+                    session['user_id'] = x.id
+                    return redirect(url_for('index'))
+                else:
+                    return redirect(url_for('login'))
+
+
+        # user = [x for x in users if x.username == username][0]
+
+        # if user and user.password == password:
+        #    session['user_id'] = user.id
+        #    return redirect(url_for('profile'))
+        # else:
+        #    return redirect(url_for('login'))
+
+    return render_template('login.html')
+@app.route('/sign_out')
+def sign_out():
+    session.pop('user_id', None)
+    return redirect('/')
+
+
+@app.route('/index')
 def index():
-    return render_template('index.html')
+    if not g.user:
+        return redirect(url_for('login'))
+    else:
+        return render_template('index.html')
 
 
 def gen(camera):
@@ -149,3 +205,4 @@ def download_file(filename):
 
 if __name__ == "__main__":
     app.run(host='192.168.0.126', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))#,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
+    #app.run(host='192.168.0.126', port=5000, threaded=True)
