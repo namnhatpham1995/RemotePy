@@ -1,8 +1,0 @@
-Flask==0.12.2
-gunicorn==19.7.1
-numpy==1.19.5
-opencv-python==4.5.1.48
-Pillow==8.1.0
-PyAutoGUI==0.9.52
-pyscreenshot==0.4.2
-Werkzeug==0.14.1

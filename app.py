@@ -1,5 +1,7 @@
 import os
 import sys
+import uuid
+
 import pyautogui
 from werkzeug.utils import secure_filename
 
@@ -14,45 +16,71 @@ app = Flask(__name__)
 UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/Storage/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 # Make user list that can login
 class User:
-    def __init__(self, id, username, password):
+    def __init__(self, id, username, password, session_token):
         self.id = id
         self.username = username
         self.password = password
+        self.session_token = session_token
 
     def __repr__(self):
         return f'<User: {self.username}>'
+
+
 users = []
-users.append(User(id=1, username='user1', password='123456'))
-users.append(User(id=2, username='user2', password='secret'))
-users.append(User(id=3, username='user3', password='password'))
+users.append(User(id=1, username='user1', password='123456', session_token=None))
+users.append(User(id=2, username='user2', password='secret', session_token=None))
+users.append(User(id=3, username='user3', password='password', session_token=None))
 app.secret_key = 'youmustknowthesecretkeytoaccess'
+
+
 @app.before_request
 def before_request():
     g.user = None
 
-    if 'user_id' in session:
-        user = [x for x in users if x.id == session['user_id']][0]
-        g.user = user
+    if 'user_token' and 'username' in session:
+        for x in users:
+            if x.username == session['username']:
+                if x.session_token == session['user_token']:
+                    g.user = x.username
+                    print(x.username)
+                else:
+                    print(session['username'])
+                    print(session['user_token'])
+                    session.pop('user_token', None)
+                    session.pop('username', None)
+                    print('g.user:')
+                    print(g.user)
+                    print('Wrong token, logout')
+                    return redirect(url_for('login'))
+        # username = session['username']
+        # if username.session_token == session['user_token']:
+        #    g.user = username
+        #    print(g.user)
+        # else:
+        #    render_template('login.html')
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session.pop('user_id', None)
-
         username = request.form['username']
         password = request.form['password']
-
+        session.pop('user_token', None)
+        session.pop('username', None)
         for x in users:
             if x.username == username:
                 if x.password == password:
-                    session['user_id'] = x.id
+                    new_session_token = str(uuid.uuid4())
+                    x.session_token = new_session_token
+                    session['user_token'] = x.session_token
+                    session['username'] = x.username
+                    print(session['user_token'])
                     return redirect(url_for('index'))
                 else:
                     return redirect(url_for('login'))
-
 
         # user = [x for x in users if x.username == username][0]
 
@@ -63,12 +91,17 @@ def login():
         #    return redirect(url_for('login'))
 
     return render_template('login.html')
+
+
 @app.route('/sign_out')
 def sign_out():
-    session.pop('user_id', None)
+    session.pop('user_token', None)
+    session.pop('username', None)
     return redirect('/')
 
 
+#########################################################################
+@app.route('/')
 @app.route('/index')
 def index():
     if not g.user:
@@ -204,5 +237,6 @@ def download_file(filename):
 
 
 if __name__ == "__main__":
-    app.run(host='192.168.0.126', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))#,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
-    #app.run(host='192.168.0.126', port=5000, threaded=True)
+    app.run(host='192.168.0.126', port=5000, threaded=True,
+            ssl_context=('cert.pem', 'key.pem'))  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
+    # app.run(host='192.168.0.126', port=5000, threaded=True)
