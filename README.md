@@ -26,7 +26,7 @@ A remote-desktop sharing application.
 - To run application using the default **Werkzeug server**:
 	
 	```
-	$ python app.py
+	$ python thesis.py
 	```
 
 - To run application using **Gunicorn server**:
