@@ -10,7 +10,8 @@
 </head>
 
 <body>
-  <section class="hero is-info is-fullheight">
+  <section class="hero is-fullheight">
+      <p style="margin-top: 80px"><center><font size="6"; color="blue">Welcome to Remote Desktop</font></center></p>
     <div class="hero-body">
       <div class="container">
         <div class="columns is-centered">
@@ -36,12 +37,25 @@
               </div>
               <div class="field">
                 <p class="control">
-                  <button type="submit" class="button is-success" >
+                  <button type="submit" class="button is-success" style="color: black">
                     Login
                   </button>
                 </p>
+
+                  {%- for category, message in get_flashed_messages(with_categories = true) %}
+                 <div class = "alert alert-danger" style="color: red">
+                   <center> {{ message }} </center>
+                 </div>
+                  {%- endfor %}
+
               </div>
             </form>
+                <br>
+              <div class="text">
+                    <p>If you use computer, click on white space around the screen to use keyboard</p>
+                    <p>If you use phone, use the text area to send words</p>
+              </div>
+
           </div>
         </div>
       </div>

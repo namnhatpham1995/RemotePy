@@ -13,6 +13,7 @@
         <option value="CSS File" />
         <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Unit Test" />
       </list>
     </option>
   </component>
@@ -43,13 +44,14 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../flask_auth_scotch" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../ProjectPython/mysite" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -78,7 +80,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="SCRIPT_NAME" value="D:\Download\Software\RemotePy2\thesis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -194,6 +196,18 @@
       <workItem from="1620653468874" duration="1554000" />
       <workItem from="1620660282628" duration="85000" />
       <workItem from="1621231681912" duration="161000" />
+      <workItem from="1621232018573" duration="7085000" />
+      <workItem from="1621322573304" duration="4069000" />
+      <workItem from="1621329035664" duration="1176000" />
+      <workItem from="1621581158848" duration="9889000" />
+      <workItem from="1622179967809" duration="802000" />
+      <workItem from="1622180936610" duration="2527000" />
+      <workItem from="1622184419566" duration="6393000" />
+      <workItem from="1622192584031" duration="4063000" />
+      <workItem from="1622275074619" duration="2670000" />
+      <workItem from="1622281843593" duration="309000" />
+      <workItem from="1622282185627" duration="2144000" />
+      <workItem from="1622301452528" duration="729000" />
     </task>
     <servers />
   </component>
