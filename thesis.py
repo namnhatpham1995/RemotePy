@@ -5,6 +5,7 @@ import uuid
 
 # Import from libraries
 import pyautogui
+from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 
@@ -76,7 +77,7 @@ def login():
             user = Users.query.filter_by(username=username).first()  # check if database has the input user
             # by username
             if user is not None:  # check if user's identity is available
-                if user.password == password:
+                if check_password_hash(user.password, password):
                     print(user.token)
                     new_session_token = str(uuid.uuid4())  # Generate new token for each log in time
                     user.token = new_session_token  # Add new token to user database
@@ -117,7 +118,8 @@ def new():
         if not request.form['username'] or not request.form['password']:  # Check if the create form is not filled
             flash('Please enter all the fields', 'error')
         else:
-            new_user = Users(username=request.form['username'], password=request.form['password'],
+            new_user = Users(username=request.form['username'],
+                             password=generate_password_hash(request.form['password']),
                              token=str(uuid.uuid4()))
 
             db.session.add(new_user)
