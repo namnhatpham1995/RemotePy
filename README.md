@@ -12,7 +12,7 @@ A remote-desktop sharing application.
 - Clone this repo:
 	
 	```
-	$ git clone https://github.com/nikhilkumarsingh/RemotePy
+	$ git clone https://github.com/namnhatpham1995/RemotePy
 	```
 
 - Install the requirements:
@@ -26,7 +26,7 @@ A remote-desktop sharing application.
 - To run application using the default **Werkzeug server**:
 	
 	```
-	$ python app.py
+	$ python thesis.py
 	```
 
 - To run application using **Gunicorn server**:
@@ -77,3 +77,4 @@ A remote-desktop sharing application.
 ## References:
 
 - [flask-video-streaming](https://github.com/miguelgrinberg/flask-video-streaming)
+- [RemotePy](https://github.com/nikhilkumarsingh/RemotePy)
