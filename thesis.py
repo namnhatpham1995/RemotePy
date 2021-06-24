@@ -24,7 +24,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/Storage/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Users.sqlite3'
-app.config['SECRET_KEY'] = "dcmyasuoganhteam123"
+app.config['SECRET_KEY'] = "youcanguessbutitisimpossible"
 db = SQLAlchemy(app)
 
 
@@ -37,12 +37,10 @@ class Users(db.Model):
     password = db.Column(db.String(200))
     token = db.Column(db.String(200))
 
-
-# Make user list that can login
-def __init__(self, username, password, token):
-    self.username = username
-    self.password = password
-    self.token = token
+    def __init__(self, username, password, token):
+        self.username = username
+        self.password = password
+        self.token = token
 
 
 @app.before_request
@@ -107,9 +105,35 @@ def sign_out():
 ############################################################################################
 
 # @app.route('/')
-@app.route('/check_user')
-def show_all():
-    return render_template('show_all.html', Users=Users.query.all())
+#@app.route('/check_user')
+#def show_all():
+#    return render_template('show_all.html', Users=Users.query.all())
+
+
+@app.route('/delete_user', methods=['GET', 'POST'])
+def delete():
+    print('start')
+    if request.method == 'POST':
+        print('success post')
+        if not request.form['username'] or not request.form['password']:  # Check if the create form is not filled
+            flash('Please enter all the fields', 'error')
+        else:
+            username = request.form['username']  # take user's identity from input
+            password = request.form['password']
+            user = Users.query.filter_by(username=username).first()  # check if database has the input user
+            print('success checking')
+            # by username
+            if user is not None:  # check if user's identity is available
+                if check_password_hash(user.password, password):  # user.password == password:
+                    print('Record was ready to delete')
+                    db.session.delete(user)
+                    db.session.commit()
+                    print('Record was successfully delete')
+                else:
+                    print('Failed')
+                    flash('Wrong Password, please try again!', 'error')  # Wrong password message
+
+    return render_template('delete.html', Users=Users.query.all())
 
 
 @app.route('/new', methods=['GET', 'POST'])
@@ -118,15 +142,19 @@ def new():
         if not request.form['username'] or not request.form['password']:  # Check if the create form is not filled
             flash('Please enter all the fields', 'error')
         else:
-            new_user = Users(username=request.form['username'],
-                             password=generate_password_hash(request.form['password']),
-                             token=str(uuid.uuid4()))
+            username = request.form['username']  # take user's identity from input
+            user = Users.query.filter_by(username=username).first()  # check if database has the input user
+            if user is None:
+                new_user = Users(username=request.form['username'],
+                                 password=generate_password_hash(request.form['password']),
+                                 token=str(uuid.uuid4()))
 
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Record was successfully added')
-            return redirect(url_for('show_all'))
-    return render_template('new.html')
+                db.session.add(new_user)
+                db.session.commit()
+                #return redirect(url_for('show_all'))
+            else:
+                flash('Username exists', 'error')
+    return render_template('new.html', Users=Users.query.all())
 
 
 ############################################################################################

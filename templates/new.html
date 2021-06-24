@@ -19,5 +19,36 @@
          <input type = "submit" value = "Submit" />
       </form>
 
+
+      <hr/>
+      {%- for message in get_flashed_messages() %}
+         {{ message }}
+      {%- endfor %}
+
+      <h3>User (<a href = "{{ url_for('delete') }}">Delete User
+         </a>)</h3>
+
+      <table>
+         <thead>
+            <tr>
+               <th>ID</th>
+               <th>Username</th>
+                <th>Password</th>
+                <th>Token</th>
+            </tr>
+         </thead>
+
+         <tbody>
+            {% for user in Users %}
+               <tr>
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.username }}</td>
+                   <td>{{ user.password }}</td>
+                   <td>{{ user.token }}</td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+
    </body>
 </html>
