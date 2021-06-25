@@ -25,7 +25,8 @@ class Camera(BaseCamera):
             # convert color space from BGR to RGB
             frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2RGB)
             # convert image to jpg format
-            ret, jpeg = cv2.imencode('.jpg', frame)
+            ret, jpeg = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 30])
+            #ret, jpeg = cv2.imencode('.webp', frame, [int(cv2.IMWRITE_WEBP_QUALITY), 100]) #5000
             yield jpeg.tobytes()
 
     @staticmethod
