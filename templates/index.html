@@ -208,31 +208,37 @@
 				mouse_event(screen, event, "dblclick");
 			});*/
 
-			$('#screen').on("tap", function tapHandler(event) {
-				var screen = $(this);
-				mouse_event(screen, event, "click");
-			});
-
-            <!--Remove Click and Double Click, Add mouse press and mouse release-->
-            $('#screen').on('mousedown', function(event) {
-				event.preventDefault();
-				var screen = $(this);
-				mouse_event(screen, event, "mousepress");
-
-				<!--Add check mouse position (for drag action) -->
-                $('#screen').on('mousemove', function(event) {
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                  $('#screen').on("tap", function tapHandler(event) {
+                    var screen = $(this);
+                    mouse_event(screen, event, "click");
+                    });
+            }
+            else {
+                <!--Remove Click and Double Click, Add mouse press and mouse release-->
+                $('#screen').on('mousedown', function(event) {
                     event.preventDefault();
                     var screen = $(this);
-                    mouse_event(screen, event, "mousemove");
-                });
+                    mouse_event(screen, event, "mousepress");
 
-			});
-            $('#screen').on('mouseup', function(event) {
-				event.preventDefault();
-				var screen = $(this);
-				mouse_event(screen, event, "mouserelease");
-				$('#screen').off('mousemove');
-			});
+                    <!--Add check mouse position (for drag action) -->
+                    $('#screen').on('mousemove', function(event) {
+                        event.preventDefault();
+                        var screen = $(this);
+                        mouse_event(screen, event, "mousemove");
+                    });
+
+                });
+                $('#screen').on('mouseup', function(event) {
+                    event.preventDefault();
+                    var screen = $(this);
+                    mouse_event(screen, event, "mouserelease");
+                    $('#screen').off('mousemove');
+                });
+            }
+
+
 
 			$('#screen').on('taphold contextmenu', function(event) {
 				event.preventDefault();
