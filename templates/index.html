@@ -36,7 +36,9 @@
 	
 	<head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/v4-shims.css">
 		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mobile-1.5.0-alpha.1.min.css') }}"/>
@@ -48,6 +50,7 @@
         <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.finger.min.js') }}"></script>
 
 		<!--
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.finger.min.js') }}"></script>
@@ -68,7 +71,7 @@
                      height = 100% draggable="false" tabindex="-1">
             </div>
 		</div>
-
+         <!--Only appear on mobile-->
         <div class="container" id="content-mobile">
             <!--text area-->
             <div class="row">
@@ -77,17 +80,36 @@
                         <textarea id="typeText" class="form-control border-dark" rows="3"></textarea>
 
                     </div>
+
+
             </div>
             <!--button send text from text area-->
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-primary" id="text">Send</button>
-                    <button class="btn btn-danger" id="text" onclick="clearTextArea()">Clear</button>
 
-                    <button class="btn btn-warning keyboard" id="backspace">BackSpace</button>
-                    <button class="btn btn-warning keyboard" id="enter">Enter</button>
+                    <button class="btn btn-primary" type="button" id="text" tabindex="-1" >
+                        <i class="fa fa-send"></i> </button>
+                    <button class="btn btn-danger" type="button" id="text" tabindex="-1" onclick="clearTextArea()">
+                        <i class="fa fa-trash"></i> </button>
+
+                    <button class="btn btn-warning keyboard" type="button" id="backspace" tabindex="-1" >
+                        <i class="fa fa-backspace"></i> </button>
+                    <button class="btn btn-warning keyboard" type="button" id="enter" tabindex="-1" >
+                        <i class="fa fa-level-down-alt fa-rotate-90"></i> </button>
+
+                    <button class="btn btn-warning keyboard" type="button" id="up" tabindex="-1" >
+                        <i class="fa fa-arrow-alt-circle-up"></i> </button>
+                    <button class="btn btn-warning keyboard" type="button" id="down" tabindex="-1" >
+                        <i class="fa fa-arrow-alt-circle-down"></i> </button>
+                    <button class="btn btn-warning keyboard" type="button" id="left" tabindex="-1" >
+                        <i class="fa fa-arrow-alt-circle-left"></i> </button>
+                    <button class="btn btn-warning keyboard" type="button" id="right" tabindex="-1" >
+                        <i class="fa fa-arrow-alt-circle-right"></i> </button>
+
+
                 </div>
             </div>
+
         </div>
 
         <div class="container">
@@ -96,22 +118,26 @@
                 <div class="col">
                         <form action="" method=post enctype=multipart/form-data>
 
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <input class="form-control-file form-control-sm" type=file name=file
-                                       style="margin-bottom: 5px" id="upload_file" tabindex="-1">
+                                       style="margin-bottom: 5px" id="upload_file" tabindex="-1" >
                                 <br>
                                 <label size="20px" class="text-dark"><strong>Choose file to transfer to PC</strong></label>
                                 <br>
-
+                                <a href="#upload_file" id="clear">Clear</a>
+                                <div class="progress">
+                                    <div class="progress-bar" id="progress-bar"></div>
+                                </div>
                             </div>
 
                         </form>
                 </div>
                 <!-- Upload Button-->
                 <div class="col">
-                        <button class="btn btn-primary" type="button" id="upload_button" tabindex="-1">
+                        <button class="btn btn-primary" type="button" id="upload_button" tabindex="-1" >
                             <i class="fa fa-cloud-upload"></i> Upload to Remote PC</button>
                 </div>
+
                 <!-- Download Button-->
                 <div class="col">
                     <a href="/downloadfile/"  tabindex="-1">
@@ -131,14 +157,20 @@
         </div>
 
 
-
 	</body>
 
 	<script>
-
+        // Auto Refresh page function
         function AutoRefresh( t ) {
                setTimeout("location.reload();", t);
             }
+
+        // Setup to the clear choose file before upload
+        $("#clear").on("click", function()
+        {
+            $("#upload_file").replaceWith( $("#upload_file").val('').clone( true ) );
+        });
+
 
         function clearTextArea() {
             document.getElementById("typeText").value = "";
@@ -207,6 +239,10 @@
 				var screen = $(this);
 				mouse_event(screen, event, "dblclick");
 			});*/
+            // Button on mobile screen click
+			$('.keyboard').click(function(event) {
+				keyboard_event(this.id);
+			});
 
             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {
@@ -214,6 +250,23 @@
                     var screen = $(this);
                     mouse_event(screen, event, "click");
                     });
+
+                  $('#button').on('keyup', function(event){
+                        if(event.keyCode == 13){
+                            $('#enter').click();
+                        }else if(event.keyCode == 8){
+                            $('#backspace').click();
+                        }else if(event.keyCode == 38) {
+                            $('#up').click();
+                        }else if(event.keyCode == 40){
+                            $('#down').click();
+                        }else if(event.keyCode == 37){
+                            $('#left').click();
+                        }else if(event.keyCode == 39){
+                            $('#right').click();
+                        }
+			        });
+
             }
             else {
                 <!--Remove Click and Double Click, Add mouse press and mouse release-->
@@ -325,24 +378,51 @@
                       data: fd,
                       contentType: false,
                       processData: false,
-                      success: function(response){}
+                      //success: function(response){}
+                       error: function (data) {
+                            layer.msg('upload failed', {
+                                icon: 2,
+                                time: 1000 // 1 second off (if not configured, the default is 3 seconds)
+                            });
+                        },
+
+                       success: function (data)
+                       {
+                            if (data.code == 1) {
+                                layer.msg('Uploaded successfully', {
+                                    icon: 1,
+                                    time: 1000 // 1 second off (if not configured, the default is 3 seconds)
+                                }, function () {
+                                    parent.location.reload();
+                                });
+                            }
+                            else {
+                                layer.msg(data.msg, {
+                                    icon: 2,
+                                    time: 1000 // 1 second off (if not configured, the default is 3 seconds)
+                                });
+                            }
+                        },
+                       xhr: function () {
+                            myXhr = $.ajaxSettings.xhr();
+                            if (myXhr.upload) { // check upload property exists
+                                // Bind event callback progress
+                                myXhr.upload.addEventListener('progress', progressHandlingFunction, false);
+                            }
+                            return myXhr; // xhr object back to using jQuery
+                        }
+
                    });
 
                 }
 			});
+            function progressHandlingFunction(event) {
+                var loaded = Math.floor(100 * (event.loaded / event.total)); // percentage has been uploaded
+                $("#progress-bar").html(loaded + "%").css("width", loaded + "%");
+            }
 
-			// Button on mobile screen click
-			$('.keyboard').click(function(event) {
-				keyboard_event(this.id);
-			});
 
-			$('html').on('keyup', function(event){
-				if(event.keyCode == 13){
-					$('#enter').click();
-				}else if(event.keyCode == 8){
-					$('#backspace').click();
-				}
-			});
+
 
 
 
