@@ -2,7 +2,7 @@ from gunicorn.app.base import Application
 
 
 class RemotePyServer:
-    def run(self, app, host='192.168.0.101', port=5000, workers=1, threads=2):
+    def run(self, app, host='0.0.0.0', port=5000, workers=1, threads=3):
         class FlaskApplication(Application):
             def init(self, parser, opts, args):
                 return {
