@@ -4,7 +4,6 @@ import sys
 import uuid
 
 # Import from libraries
-import pyautogui
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
@@ -16,6 +15,8 @@ from flask import Flask, render_template, Response, request, redirect, send_file
 # Import from other files
 import file
 from camera_desktop import Camera
+from mouse_control import MouseControl
+from keyboard_control import KeyboardControl
 
 ############################################################################################
 # Setting ##################################################################################
@@ -25,6 +26,7 @@ UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/Storage/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Users.sqlite3'
 app.config['SECRET_KEY'] = "youcanguessbutitisimpossible"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
@@ -105,8 +107,8 @@ def sign_out():
 ############################################################################################
 
 # @app.route('/')
-#@app.route('/check_user')
-#def show_all():
+# @app.route('/check_user')
+# def show_all():
 #    return render_template('show_all.html', Users=Users.query.all())
 
 
@@ -151,7 +153,7 @@ def new():
 
                 db.session.add(new_user)
                 db.session.commit()
-                #return redirect(url_for('show_all'))
+                # return redirect(url_for('show_all'))
             else:
                 flash('Username exists', 'error')
     return render_template('new.html', Users=Users.query.all())
@@ -184,77 +186,27 @@ def video_feed():
 
 @app.route('/mouse', methods=['POST'])  # control mouse
 def mouse_event():
-    # co-ordinates of browser image event
-    ex, ey = float(request.form.get('x')), float(request.form.get('y'))
-    # size of browser image
-    imx, imy = float(request.form.get('X')), float(request.form.get('Y'))
-    # size of desktop
-    dx, dy = pyautogui.size()
-    # co-ordinates of desktop event
-    x, y = dx * (ex / imx), dy * (ey / imy)
-    # mouse event
-    event = request.form.get('type')
+    MouseControl.actions()
+    # event, x, y, ex, ey = MouseControl.get_data()
+    # MouseControl.actions(event, x, y, ex, ey)
+    # mouse_process=mp.Process(target=MouseControl.actions, args=(event, x, y))
+    # mouse_process.start()
+    # mouse_thread = mp.Process(target=MouseControl.actions, args=(event, x, y, ex, ey))
+    # mouse_thread.start()
 
-    if event == 'rightclick':
-        pyautogui.click(x, y, button='right')
-    elif event == 'click':
-        pyautogui.click(x, y, button='left')
-    elif event == 'mousewheelup':
-        pyautogui.scroll(100)
-    elif event == 'mousewheeldown':
-        pyautogui.scroll(-100)
-    elif event == 'mousepress':
-        pyautogui.mouseDown(x, y)
-    elif event == 'mouserelease':
-        pyautogui.mouseUp(x, y)
-    elif event == 'mousemove':
-        if y == ey:
-            pyautogui.moveTo(x, ey + 2)  # in case to show hidden taskbar
-        elif x == ex:
-            pyautogui.moveTo(ex + 2, y)
-        elif y == 0:
-            pyautogui.moveTo(x, -2)
-        elif x == 0:
-            pyautogui.moveTo(-2, y)
-        else:
-            pyautogui.moveTo(x, y)
     return Response("success")
 
 
 @app.route('/keyboard', methods=['POST'])  # input keyboard on remote desktop
 def keyboard_event():
-    text = request.form.get("text")
-    #    if text == 'ctrl' or 'shift' or 'alt'
-    pyautogui.keyDown(text)
+    KeyboardControl.input_keyboard()
     return Response("success")
 
 
 @app.route('/button', methods=['POST'])  # receive text from front end and paste to the field on remote desktop
 def button_event():
-    # button event
-    event = request.form.get('type')
-    print(event)
-    if event == "text":
-        text = request.form.get("text")
-        pyautogui.typewrite(text)
-    else:
-        pyautogui.press(event)
+    KeyboardControl.input_text()
     return Response("success")
-
-
-'''
-@app.route('/sendtext', methods=['POST'])
-def send_text_event():
-    # keyoard event
-    event = request.form.get('type')
-    print(event)
-    if event == "text":
-        text = request.form.get("text")
-        pyautogui.typewrite(text)
-    else:
-        pyautogui.press(event)
-    return Response("success")
-'''
 
 
 # Upload API
@@ -273,8 +225,8 @@ def upload_file():
             return redirect(request.url)
         else:
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            print("saved file successfully")
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename),)
+            print("Uploading")
     return render_template('index.html')
 
 
@@ -300,6 +252,6 @@ def download_file(filename):
 
 
 if __name__ == "__main__":
-    app.run(host='192.168.0.126', port=5000, threaded=True,
-            ssl_context=('cert.pem', 'key.pem'))  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
-    # app.run(host='192.168.0.126', port=5000, threaded=True)
+     app.run(host='0.0.0.0', threaded=True)  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
+    #app.run(host='0.0.0.0', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
+# app.run(host='192.168.0.126', port=5000, threaded=True)
