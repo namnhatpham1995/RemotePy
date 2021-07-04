@@ -26,7 +26,7 @@ UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/Storage/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Users.sqlite3'
 app.config['SECRET_KEY'] = "youcanguessbutitisimpossible"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 
@@ -75,8 +75,10 @@ def login():
             username = request.form['username']  # take user's identity from input
             password = request.form['password']
             user = Users.query.filter_by(username=username).first()  # check if database has the input user
+
             # by username
             if user is not None:  # check if user's identity is available
+                print(user.username)
                 if check_password_hash(user.password, password):
                     print(user.token)
                     new_session_token = str(uuid.uuid4())  # Generate new token for each log in time
@@ -91,7 +93,7 @@ def login():
                     return redirect(url_for('login'))  # reload login page
             else:
                 flash('This username is not exist!', 'error')  # Username isn't available message
-
+                
     return render_template('login.html')
 
 
@@ -157,6 +159,7 @@ def new():
             else:
                 flash('Username exists', 'error')
     return render_template('new.html', Users=Users.query.all())
+
 
 
 ############################################################################################
@@ -252,6 +255,8 @@ def download_file(filename):
 
 
 if __name__ == "__main__":
-     app.run(host='0.0.0.0', threaded=True)  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
-    #app.run(host='0.0.0.0', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
-# app.run(host='192.168.0.126', port=5000, threaded=True)
+    #app.run(host='0.0.0.0', threaded=True)  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
+    app.run(host='0.0.0.0', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
+    #app.run(host='0.0.0.0', port=5000, threaded=True, ssl_context='adhoc')
+    #app.run(host='::', port=5000, threaded=True, ssl_context='adhoc')
+    #app.run(host='2a02:908:1860:140::a31f', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))

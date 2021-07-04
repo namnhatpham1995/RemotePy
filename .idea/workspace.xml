@@ -11,9 +11,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="Python Script" />
         <option value="Python Unit Test" />
         <option value="HTML File" />
+        <option value="Python Script" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -38,6 +39,13 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/thesis.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/camera_desktop.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/base_camera.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/templates/index.html" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/wsgi.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1nFOP6IWbExynUyRv5z60MCRR1w" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -216,7 +224,36 @@
       <workItem from="1624430827428" duration="1516000" />
       <workItem from="1624455640375" duration="7322000" />
       <workItem from="1624465796982" duration="68000" />
-      <workItem from="1624518303758" duration="20896000" />
+      <workItem from="1624518303758" duration="21137000" />
+      <workItem from="1624601447580" duration="4188000" />
+      <workItem from="1624605858113" duration="8654000" />
+      <workItem from="1624628455551" duration="54000" />
+      <workItem from="1624628710365" duration="982000" />
+      <workItem from="1624684592143" duration="442000" />
+      <workItem from="1624695957494" duration="5982000" />
+      <workItem from="1624705133267" duration="159000" />
+      <workItem from="1624724056670" duration="1151000" />
+      <workItem from="1624729395475" duration="3335000" />
+      <workItem from="1624736254237" duration="214000" />
+      <workItem from="1624770344042" duration="952000" />
+      <workItem from="1624773366484" duration="5188000" />
+      <workItem from="1624858030551" duration="1702000" />
+      <workItem from="1624860587289" duration="3370000" />
+      <workItem from="1624893182697" duration="1708000" />
+      <workItem from="1624973692392" duration="7021000" />
+      <workItem from="1624985342832" duration="304000" />
+      <workItem from="1624985667536" duration="19000" />
+      <workItem from="1624986279477" duration="4000" />
+      <workItem from="1624989043874" duration="608000" />
+      <workItem from="1625036767820" duration="24807000" />
+      <workItem from="1625116774023" duration="20472000" />
+      <workItem from="1625203857628" duration="14361000" />
+      <workItem from="1625291935507" duration="572000" />
+      <workItem from="1625292557105" duration="3776000" />
+      <workItem from="1625296569106" duration="774000" />
+      <workItem from="1625297948782" duration="873000" />
+      <workItem from="1625330311873" duration="1602000" />
+      <workItem from="1625377359456" duration="584000" />
     </task>
     <servers />
   </component>
