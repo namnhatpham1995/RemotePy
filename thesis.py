@@ -30,6 +30,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 
+######
+
+
 ############################################################################################
 # Log in and check user identity ###########################################################
 ############################################################################################
@@ -42,6 +45,16 @@ class Users(db.Model):
     def __init__(self, username, password, token):
         self.username = username
         self.password = password
+        self.token = token
+
+
+class Sessions(db.Model):
+    __bind_key__ = 'sessions'
+    username = db.Column(db.String(200), primary_key=True)
+    token = db.Column(db.String(200))
+
+    def __init__(self, username, token):
+        self.username = username
         self.token = token
 
 
@@ -61,6 +74,8 @@ def before_request():
             session.pop('username', None)
             print('Wrong token, logout')
             return redirect(url_for('login'))
+    else:
+        print('no one in session')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -93,7 +108,7 @@ def login():
                     return redirect(url_for('login'))  # reload login page
             else:
                 flash('This username is not exist!', 'error')  # Username isn't available message
-                
+
     return render_template('login.html')
 
 
@@ -159,7 +174,6 @@ def new():
             else:
                 flash('Username exists', 'error')
     return render_template('new.html', Users=Users.query.all())
-
 
 
 ############################################################################################
@@ -228,7 +242,7 @@ def upload_file():
             return redirect(request.url)
         else:
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename),)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename), )
             print("Uploading")
     return render_template('index.html')
 
@@ -255,8 +269,9 @@ def download_file(filename):
 
 
 if __name__ == "__main__":
-    #app.run(host='0.0.0.0', threaded=True)  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
-    app.run(host='0.0.0.0', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
-    #app.run(host='0.0.0.0', port=5000, threaded=True, ssl_context='adhoc')
-    #app.run(host='::', port=5000, threaded=True, ssl_context='adhoc')
-    #app.run(host='2a02:908:1860:140::a31f', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))
+    # app.run(host='0.0.0.0', threaded=True)  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
+    app.run(host='0.0.0.0', port=5000, threaded=True,
+            ssl_context=('cert.pem', 'key.pem'))  # ,ssl_context='adhoc', ssl_context=('cert.pem', 'key.pem')
+    # app.run(host='0.0.0.0', port=5000, threaded=True, ssl_context='adhoc')
+    # app.run(host='::', port=5000, threaded=True, ssl_context='adhoc')
+    # app.run(host='2a02:908:1860:140::a31f', port=5000, threaded=True, ssl_context=('cert.pem', 'key.pem'))

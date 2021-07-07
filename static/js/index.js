@@ -159,22 +159,26 @@
             /* Send text keyboard, click on empty space to activate keyboard oneye */
 
 			$('html').keydown(function(event) {
-                var text    = event.key;
-                if (text == "ArrowDown")
+                var text    = event.key.toLowerCase();
+                if (text == "arrowdown")
                 {
                     text = "down";
                 }
-                else if (text == "ArrowUp")
+                else if (text == "arrowup")
                 {
                     text = "up";
                 }
-                else if (text == "ArrowLeft")
+                else if (text == "arrowleft")
                 {
                     text = "left";
                 }
-                else if(text == "ArrowRight")
+                else if(text == "arrowright")
                 {
                     text = "right";
+                }
+                else if(text == "control")
+                {
+                    text = "ctrl";
                 }
 				console.log(text);
 				$.ajax({
@@ -188,6 +192,7 @@
 					success: function(result) { }
 				});
 			});
+
 
             /* Send text area*/
 			$('#text').click(function(event) {

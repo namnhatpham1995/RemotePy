@@ -12,9 +12,9 @@
       <list>
         <option value="CSS File" />
         <option value="Python Unit Test" />
-        <option value="HTML File" />
-        <option value="Python Script" />
         <option value="JavaScript File" />
+        <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -253,7 +253,18 @@
       <workItem from="1625296569106" duration="774000" />
       <workItem from="1625297948782" duration="873000" />
       <workItem from="1625330311873" duration="1602000" />
-      <workItem from="1625377359456" duration="584000" />
+      <workItem from="1625377359456" duration="1280000" />
+      <workItem from="1625502435679" duration="1148000" />
+      <workItem from="1625503603926" duration="189000" />
+      <workItem from="1625503869068" duration="6500000" />
+      <workItem from="1625551439116" duration="5758000" />
+      <workItem from="1625579152356" duration="204000" />
+      <workItem from="1625579962131" duration="5448000" />
+      <workItem from="1625588532024" duration="488000" />
+      <workItem from="1625589380813" duration="781000" />
+      <workItem from="1625592401501" duration="2443000" />
+      <workItem from="1625602028852" duration="629000" />
+      <workItem from="1625636097806" duration="7347000" />
     </task>
     <servers />
   </component>
